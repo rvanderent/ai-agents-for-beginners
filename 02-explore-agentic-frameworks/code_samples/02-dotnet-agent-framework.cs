@@ -47,7 +47,7 @@ static string GetRandomDestination()
 // Retrieve the GitHub token for authentication, throws exception if not specified
 var github_endpoint = Environment.GetEnvironmentVariable("GH_ENDPOINT") ?? "https://models.github.ai/inference";
 var github_model_id = Environment.GetEnvironmentVariable("GH_MODEL_ID") ?? "openai/gpt-4o-mini";
-var github_token = Environment.GetEnvironmentVariable("GH_TOKEN") ?? "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";
+var github_token = Environment.GetEnvironmentVariable("GH_TOKEN") ?? "github";
 
 // Configure OpenAI Client Options
 // Create configuration options to point to GitHub Models endpoint
