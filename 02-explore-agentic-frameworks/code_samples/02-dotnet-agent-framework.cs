@@ -2,14 +2,32 @@
 
 #:package Microsoft.Extensions.AI@10.*
 #:package Microsoft.Agents.AI.OpenAI@1.*-*
+#:package DotNetEnv@3.1.1
 
 using System.ClientModel;
 using System.ComponentModel;
 
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
+using DotNetEnv;
 
 using OpenAI;
+
+
+
+var envPath = Path.GetFullPath(
+    Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", "..", ".." , "Code", "ai-agents-for-beginners",".env")
+);
+
+if (File.Exists(envPath))
+{
+    Env.Load(envPath);
+}
+else
+{
+    Console.WriteLine($".env file not found at: {envPath}");
+}
+
 
 // Tool Function: Random Destination Generator
 // This static method will be available to the agent as a callable tool
@@ -45,9 +63,9 @@ static string GetRandomDestination()
 // Retrieve the GitHub Models API endpoint, defaults to https://models.github.ai/inference if not specified
 // Retrieve the model ID, defaults to openai/gpt-5-mini if not specified
 // Retrieve the GitHub token for authentication, throws exception if not specified
-var github_endpoint = Environment.GetEnvironmentVariable("GH_ENDPOINT") ?? "https://models.github.ai/inference";
-var github_model_id = Environment.GetEnvironmentVariable("GH_MODEL_ID") ?? "openai/gpt-4o-mini";
-var github_token = Environment.GetEnvironmentVariable("GH_TOKEN") ?? "github";
+var github_endpoint = Environment.GetEnvironmentVariable("GITHUB_ENDPOINT") ?? throw new InvalidOperationException("GITHUB_ENDPOINT is not set.");
+var github_model_id = Environment.GetEnvironmentVariable("GITHUB_MODEL_ID") ?? throw new InvalidOperationException("GITHUB_MODEL_ID is not set.");
+var github_token = Environment.GetEnvironmentVariable("GITHUB_TOKEN") ?? throw new InvalidOperationException("GITHUB_TOKEN is not set.");
 
 // Configure OpenAI Client Options
 // Create configuration options to point to GitHub Models endpoint
